@@ -1,0 +1,26 @@
+{
+  "name": "payment-management-backend",
+  "version": "1.0.0",
+  "description": "Payment Management System Backend for Aimer's Academy",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": [
+    "payment",
+    "management",
+    "express",
+    "google-sheets"
+  ],
+  "author": "Aimer's Academy",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "googleapis": "^171.0.0",
+    "jsonwebtoken": "^9.0.3"
+  }
+}

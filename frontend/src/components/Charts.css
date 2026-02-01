@@ -1,0 +1,142 @@
+.chart-container {
+    background: var(--white);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    height: 350px;
+}
+
+.chart-container.bar-chart {
+    height: 400px;
+}
+
+.chart-container.pie-chart {
+    height: 350px;
+}
+
+.chart-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+    background: var(--white);
+    border-radius: var(--radius-md);
+    padding: 2rem;
+    box-shadow: var(--shadow);
+    color: var(--gray-500);
+}
+
+.chart-empty span {
+    font-size: 3rem;
+    opacity: 0.5;
+    margin-bottom: 1rem;
+}
+
+.chart-empty p {
+    font-size: 0.9375rem;
+}
+
+/* Report Summary */
+.report-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.report-stat {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--white);
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.report-stat:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.stat-icon {
+    font-size: 2rem;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius);
+    background: var(--gray-100);
+}
+
+.report-stat.income .stat-icon {
+    background: var(--success-light);
+}
+
+.report-stat.expense .stat-icon {
+    background: var(--danger-light);
+}
+
+.report-stat.balance .stat-icon {
+    background: var(--info-light);
+}
+
+.report-stat.count .stat-icon {
+    background: var(--warning-light);
+}
+
+.stat-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-label {
+    font-size: 0.8125rem;
+    color: var(--gray-500);
+    margin-bottom: 0.25rem;
+}
+
+.stat-value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--gray-900);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .chart-container {
+        padding: 1rem;
+        height: 300px;
+    }
+
+    .chart-container.bar-chart {
+        height: 350px;
+    }
+
+    .report-summary {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .report-stat {
+        padding: 1rem;
+    }
+
+    .stat-icon {
+        width: 44px;
+        height: 44px;
+        font-size: 1.5rem;
+    }
+
+    .stat-value {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .report-summary {
+        grid-template-columns: 1fr;
+    }
+}

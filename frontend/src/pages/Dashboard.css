@@ -1,0 +1,134 @@
+.dashboard {
+    max-width: 1200px;
+}
+
+.page-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.header-content {
+    flex: 1;
+}
+
+.dashboard-grid {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.dashboard-section {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-card);
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+}
+
+.section-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--gray-900);
+}
+
+/* Quick Actions */
+.quick-actions {
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+}
+
+.quick-actions .section-title {
+    margin-bottom: 1rem;
+}
+
+.action-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.action-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 1.5rem 1rem;
+    background: var(--white);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+    text-decoration: none;
+    transition: var(--transition);
+    border: 2px solid transparent;
+}
+
+.action-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.action-card.income:hover {
+    border-color: var(--success);
+}
+
+.action-card.expense:hover {
+    border-color: var(--danger);
+}
+
+.action-card.report:hover {
+    border-color: var(--primary);
+}
+
+.action-card.history:hover {
+    border-color: var(--info);
+}
+
+.action-icon {
+    font-size: 2rem;
+}
+
+.action-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--gray-700);
+}
+
+/* Responsive */
+@media (min-width: 1024px) {
+    .dashboard-grid {
+        grid-template-columns: 2fr 1fr;
+    }
+
+    .action-cards {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .page-header .btn {
+        width: 100%;
+    }
+
+    .action-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-section {
+        padding: 1.25rem;
+    }
+}

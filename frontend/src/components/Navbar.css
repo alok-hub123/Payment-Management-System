@@ -1,0 +1,352 @@
+/* Sidebar Styles */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 260px;
+    background: linear-gradient(180deg, #c62828 0%, #b71c1c 100%);
+    display: none;
+    flex-direction: column;
+    z-index: 100;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+}
+
+@media (min-width: 768px) {
+    .sidebar {
+        display: flex;
+    }
+}
+
+.sidebar-header {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.logo-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--white);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.logo-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.logo-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.logo-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.2;
+}
+
+.logo-subtitle {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.sidebar-nav {
+    flex: 1;
+    padding: 1rem 0;
+    overflow-y: auto;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.875rem 1.5rem;
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    transition: var(--transition);
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--white);
+}
+
+.nav-link.active {
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--white);
+    border-left-color: var(--white);
+}
+
+.nav-icon {
+    font-size: 1.25rem;
+    width: 28px;
+    text-align: center;
+}
+
+.sidebar-footer {
+    padding: 1.25rem 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(0, 0, 0, 0.15);
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.sidebar-footer .user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--white);
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.user-name {
+    font-weight: 600;
+    color: var(--white);
+    font-size: 0.875rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-email {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.9);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.logout-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    border-radius: var(--radius);
+    color: var(--white);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.logout-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+/* Mobile Header */
+.mobile-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: linear-gradient(135deg, #c62828 0%, #b71c1c 100%);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+@media (min-width: 768px) {
+    .mobile-header {
+        display: none;
+    }
+}
+
+.menu-toggle {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+}
+
+.hamburger {
+    width: 18px;
+    height: 2px;
+    background: var(--white);
+    position: relative;
+}
+
+.hamburger::before,
+.hamburger::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background: var(--white);
+    left: 0;
+}
+
+.hamburger::before {
+    top: -6px;
+}
+
+.hamburger::after {
+    top: 6px;
+}
+
+.mobile-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--white);
+}
+
+.mobile-header-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.mobile-header-logo .logo-icon {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--white);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.mobile-header-logo .logo-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mobile-header-logo .logo-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--white);
+}
+
+/* Mobile Menu */
+.mobile-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 200;
+}
+
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    left: -280px;
+    width: 280px;
+    height: 100%;
+    background: linear-gradient(180deg, #c62828 0%, #b71c1c 100%);
+    z-index: 300;
+    display: flex;
+    flex-direction: column;
+    transition: left 0.3s ease;
+}
+
+.mobile-menu.open {
+    left: 0;
+}
+
+.mobile-menu-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.mobile-menu-header .logo-icon {
+    width: 40px;
+    height: 40px;
+}
+
+.mobile-menu-header .logo-title {
+    font-size: 1rem;
+}
+
+.close-menu {
+    margin-left: auto;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-size: 1rem;
+    color: var(--white);
+}
+
+.mobile-nav {
+    flex: 1;
+    padding: 1rem 0;
+}
+
+.mobile-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.mobile-nav-link:hover,
+.mobile-nav-link.active {
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--white);
+}
+
+.mobile-menu-footer {
+    padding: 1.25rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.mobile-menu-footer .user-info {
+    margin-bottom: 0.75rem;
+}

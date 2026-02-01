@@ -1,0 +1,24 @@
+.add-transaction {
+    max-width: 700px;
+}
+
+.form-card {
+    background: var(--white);
+}
+
+.form-card .alert {
+    margin-bottom: 1.5rem;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .add-transaction {
+        padding: 0;
+    }
+
+    .form-card {
+        border-radius: 0;
+        box-shadow: none;
+        border-top: 1px solid var(--gray-200);
+    }
+}

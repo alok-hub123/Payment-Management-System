@@ -1,0 +1,157 @@
+.summary-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+}
+
+.summary-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-card);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.summary-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+}
+
+.summary-card.income::before {
+    background: linear-gradient(90deg, #43a047, #66bb6a);
+}
+
+.summary-card.expense::before {
+    background: linear-gradient(90deg, #e53935, #ef5350);
+}
+
+.summary-card.positive::before {
+    background: linear-gradient(90deg, #1e88e5, #42a5f5);
+}
+
+.summary-card.negative::before {
+    background: linear-gradient(90deg, #fb8c00, #ffa726);
+}
+
+.summary-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.card-icon {
+    font-size: 2rem;
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gray-100);
+    border-radius: var(--radius-md);
+}
+
+.summary-card.income .card-icon {
+    background: var(--success-light);
+}
+
+.summary-card.expense .card-icon {
+    background: var(--danger-light);
+}
+
+.summary-card.positive .card-icon {
+    background: var(--info-light);
+}
+
+.summary-card.negative .card-icon {
+    background: var(--warning-light);
+}
+
+.card-trend {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.625rem;
+    border-radius: 9999px;
+    background: var(--gray-100);
+    color: var(--gray-600);
+}
+
+.summary-card.income .card-trend {
+    background: var(--success-light);
+    color: #2e7d32;
+}
+
+.summary-card.expense .card-trend {
+    background: var(--danger-light);
+    color: #c62828;
+}
+
+.card-title {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--gray-500);
+    margin-bottom: 0.5rem;
+}
+
+.card-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    letter-spacing: -0.02em;
+}
+
+/* Loading State */
+.summary-card.loading {
+    min-height: 140px;
+}
+
+.skeleton-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: var(--radius-md);
+    margin-bottom: 1rem;
+}
+
+.skeleton-text {
+    height: 16px;
+    width: 60%;
+    margin-bottom: 0.5rem;
+}
+
+.skeleton-value {
+    height: 32px;
+    width: 80%;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .summary-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .summary-card {
+        padding: 1.25rem;
+    }
+
+    .card-value {
+        font-size: 1.5rem;
+    }
+
+    .card-icon {
+        width: 44px;
+        height: 44px;
+        font-size: 1.5rem;
+    }
+}
