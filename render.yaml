@@ -22,16 +22,12 @@ services:
       - key: GOOGLE_PRIVATE_KEY
         sync: false
       - key: FRONTEND_URL
-        fromService:
-          type: web
-          name: payment-frontend
-          property: url
+        sync: false
 
   # Frontend Static Site
   - type: web
     name: payment-frontend
     runtime: static
-    region: oregon
     plan: free
     rootDir: frontend
     buildCommand: npm install && npm run build
@@ -46,7 +42,4 @@ services:
         destination: /index.html
     envVars:
       - key: VITE_API_URL
-        fromService:
-          type: web
-          name: payment-api
-          property: url
+        sync: false
