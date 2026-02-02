@@ -152,9 +152,35 @@ class SheetsService {
 
     async getTransactionsByDateRange(startDate, endDate) {
         const transactions = await this.getTransactions();
+
+        // Normalize dates to YYYY-MM-DD format for comparison (using local time)
+        const normalizeDate = (dateStr) => {
+            if (!dateStr) return null;
+            const date = new Date(dateStr);
+            if (isNaN(date.getTime())) return null;
+            // Return YYYY-MM-DD format using local time (not UTC)
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        };
+
+        const start = normalizeDate(startDate);
+        const end = normalizeDate(endDate);
+
+        if (!start || !end) {
+            console.error('Invalid date range:', { startDate, endDate });
+            return [];
+        }
+
         return transactions.filter(t => {
-            const txDate = new Date(t.date);
-            return txDate >= new Date(startDate) && txDate <= new Date(endDate);
+            const txDate = normalizeDate(t.date);
+            if (!txDate) {
+                console.log('Invalid transaction date:', t.date, 'for transaction:', t.id);
+                return false;
+            }
+            // String comparison works for YYYY-MM-DD format
+            return txDate >= start && txDate <= end;
         });
     }
 
