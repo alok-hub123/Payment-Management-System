@@ -22,7 +22,7 @@ services:
       - key: GOOGLE_PRIVATE_KEY
         sync: false
       - key: FRONTEND_URL
-        sync: false
+        value: https://payment-frontend-a12d.onrender.com
 
   # Frontend Static Site
   - type: web
@@ -41,4 +41,4 @@ services:
         destination: /index.html
     envVars:
       - key: VITE_API_URL
-        sync: false
+        value: https://payment-api-k4oa.onrender.com/api
