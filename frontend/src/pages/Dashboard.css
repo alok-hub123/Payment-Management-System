@@ -21,10 +21,10 @@
 }
 
 .dashboard-section {
-    background: var(--white);
+    /* background: var(--white);
     border-radius: var(--radius-lg);
     padding: 1.5rem;
-    box-shadow: var(--shadow-card);
+    box-shadow: var(--shadow-card); */
 }
 
 .section-header {
