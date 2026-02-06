@@ -6,6 +6,7 @@ import Dashboard from './pages/Dashboard'
 import AddTransaction from './pages/AddTransaction'
 import TransactionHistory from './pages/TransactionHistory'
 import Reports from './pages/Reports'
+import UserManagement from './pages/UserManagement'
 import './App.css'
 
 // Protected Route Component
@@ -22,6 +23,30 @@ const ProtectedRoute = ({ children }) => {
     }
 
     return isAuthenticated ? children : <Navigate to="/login" replace />
+}
+
+// Admin Route Component - requires admin role
+const AdminRoute = ({ children }) => {
+    const { isAuthenticated, isAdmin, loading } = useAuth()
+
+    if (loading) {
+        return (
+            <div className="loading-screen">
+                <div className="loader"></div>
+                <p>Loading...</p>
+            </div>
+        )
+    }
+
+    if (!isAuthenticated) {
+        return <Navigate to="/login" replace />
+    }
+
+    if (!isAdmin) {
+        return <Navigate to="/" replace />
+    }
+
+    return children
 }
 
 function App() {
@@ -55,6 +80,11 @@ function App() {
                             <Reports />
                         </ProtectedRoute>
                     } />
+                    <Route path="/users" element={
+                        <AdminRoute>
+                            <UserManagement />
+                        </AdminRoute>
+                    } />
                     <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
             </main>
@@ -63,3 +93,4 @@ function App() {
 }
 
 export default App
+

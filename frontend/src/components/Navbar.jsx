@@ -4,16 +4,22 @@ import { useAuth } from '../context/AuthContext'
 import './Navbar.css'
 
 const Navbar = () => {
-    const { user, logout } = useAuth()
+    const { user, logout, isAdmin } = useAuth()
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
     const location = useLocation()
 
-    const navItems = [
+    // Base nav items for all users
+    const baseNavItems = [
         { path: '/', label: 'Dashboard', icon: '📊' },
         { path: '/add-transaction', label: 'Add Transaction', icon: '➕' },
         { path: '/transactions', label: 'Transactions', icon: '📋' },
         { path: '/reports', label: 'Reports', icon: '📈' }
     ]
+
+    // Add Users menu only for admins
+    const navItems = isAdmin
+        ? [...baseNavItems, { path: '/users', label: 'Users', icon: '👥' }]
+        : baseNavItems
 
     const toggleMobileMenu = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen)

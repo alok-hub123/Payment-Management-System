@@ -67,6 +67,7 @@ export const AuthProvider = ({ children }) => {
         token,
         loading,
         isAuthenticated: !!token && !!user,
+        isAdmin: user?.role?.toLowerCase() === 'admin',
         login,
         logout
     }
@@ -79,3 +80,4 @@ export const AuthProvider = ({ children }) => {
 }
 
 export default AuthContext
+

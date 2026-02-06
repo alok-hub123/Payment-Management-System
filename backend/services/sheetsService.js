@@ -21,7 +21,7 @@ class SheetsService {
             console.log('Spreadsheet ID:', SPREADSHEET_ID);
             const response = await sheets.spreadsheets.values.get({
                 spreadsheetId: SPREADSHEET_ID,
-                range: `${SHEETS.USERS}!A:D`,
+                range: `${SHEETS.USERS}!A:E`,
             });
 
             const rows = response.data.values || [];
@@ -32,7 +32,8 @@ class SheetsService {
                 id: row[0],
                 email: row[1],
                 password: row[2],
-                name: row[3]
+                name: row[3],
+                role: row[4] || 'user' // Default to 'user' if no role specified
             }));
         } catch (error) {
             console.error('Error fetching users:', error.message);
@@ -48,18 +49,89 @@ class SheetsService {
 
     async addUser(user) {
         const sheets = await this.init();
-        const { id, email, password, name } = user;
+        const { id, email, password, name, role = 'user' } = user;
 
         await sheets.spreadsheets.values.append({
             spreadsheetId: SPREADSHEET_ID,
-            range: `${SHEETS.USERS}!A:D`,
+            range: `${SHEETS.USERS}!A:E`,
             valueInputOption: 'RAW',
             resource: {
-                values: [[id, email, password, name]]
+                values: [[id, email, password, name, role]]
             }
         });
 
-        return user;
+        return { ...user, role };
+    }
+
+    async getUserById(id) {
+        const sheets = await this.init();
+        try {
+            const response = await sheets.spreadsheets.values.get({
+                spreadsheetId: SPREADSHEET_ID,
+                range: `${SHEETS.USERS}!A:E`,
+            });
+
+            const rows = response.data.values || [];
+            if (rows.length <= 1) return null;
+
+            // Find user and their row index
+            for (let i = 1; i < rows.length; i++) {
+                if (rows[i][0] === id) {
+                    return {
+                        id: rows[i][0],
+                        email: rows[i][1],
+                        password: rows[i][2],
+                        name: rows[i][3],
+                        role: rows[i][4] || 'user',
+                        rowIndex: i + 1 // 1-indexed for Sheets
+                    };
+                }
+            }
+            return null;
+        } catch (error) {
+            console.error('Error fetching user by ID:', error.message);
+            throw error;
+        }
+    }
+
+    async updateUser(id, updates) {
+        const sheets = await this.init();
+        const user = await this.getUserById(id);
+
+        if (!user) {
+            throw new Error('User not found');
+        }
+
+        const updatedUser = { ...user, ...updates };
+        const { email, password, name, role } = updatedUser;
+
+        await sheets.spreadsheets.values.update({
+            spreadsheetId: SPREADSHEET_ID,
+            range: `${SHEETS.USERS}!A${user.rowIndex}:E${user.rowIndex}`,
+            valueInputOption: 'RAW',
+            resource: {
+                values: [[id, email, password, name, role || 'user']]
+            }
+        });
+
+        return { id, email, name, role: role || 'user' };
+    }
+
+    async deleteUser(id) {
+        const sheets = await this.init();
+        const user = await this.getUserById(id);
+
+        if (!user) {
+            throw new Error('User not found');
+        }
+
+        // Clear the row (including role column E)
+        await sheets.spreadsheets.values.clear({
+            spreadsheetId: SPREADSHEET_ID,
+            range: `${SHEETS.USERS}!A${user.rowIndex}:E${user.rowIndex}`,
+        });
+
+        return true;
     }
 
     // ==================== TRANSACTION OPERATIONS ====================

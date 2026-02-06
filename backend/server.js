@@ -9,6 +9,7 @@ dotenv.config();
 const authRoutes = require('./routes/auth');
 const transactionRoutes = require('./routes/transactions');
 const reportRoutes = require('./routes/reports');
+const userRoutes = require('./routes/users');
 
 const app = express();
 
@@ -65,6 +66,7 @@ app.get('/api/debug/sheets', async (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/transactions', transactionRoutes);
 app.use('/api/reports', reportRoutes);
+app.use('/api/users', userRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
