@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import TransactionTable from '../components/TransactionTable'
 import Filters from '../components/Filters'
@@ -10,8 +10,21 @@ const TransactionHistory = () => {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState('')
     const [filters, setFilters] = useState({})
+    const [searchQuery, setSearchQuery] = useState('')
     const [editingTransaction, setEditingTransaction] = useState(null)
     const [showDeleteModal, setShowDeleteModal] = useState(null)
+
+    // Client-side instant search across description, category, type, amount
+    const filteredTransactions = useMemo(() => {
+        const q = searchQuery.trim().toLowerCase()
+        if (!q) return transactions
+        return transactions.filter(t =>
+            (t.description || '').toLowerCase().includes(q) ||
+            (t.category || '').toLowerCase().includes(q) ||
+            (t.type || '').toLowerCase().includes(q) ||
+            String(t.amount || '').includes(q)
+        )
+    }, [transactions, searchQuery])
 
     useEffect(() => {
         fetchTransactions()
@@ -37,6 +50,7 @@ const TransactionHistory = () => {
 
     const handleFilter = (newFilters) => {
         setFilters(newFilters)
+        setSearchQuery('') // reset search when backend filters change
     }
 
     const handleEdit = (transaction) => {
@@ -73,7 +87,12 @@ const TransactionHistory = () => {
                 <div className="header-content">
                     <h1 className="page-title">Transaction History</h1>
                     <p className="page-subtitle">
-                        {loading ? 'Loading...' : `${transactions.length} transactions found`}
+                        {loading
+                            ? 'Loading...'
+                            : searchQuery
+                                ? `${filteredTransactions.length} of ${transactions.length} transactions`
+                                : `${transactions.length} transactions found`
+                        }
                     </p>
                 </div>
                 <Link to="/add-transaction" className="btn btn-primary">
@@ -82,6 +101,25 @@ const TransactionHistory = () => {
             </div>
 
             <Filters onFilter={handleFilter} initialFilters={filters} />
+
+            {/* Search Bar */}
+            <div className="search-bar-wrapper">
+                <div className="search-bar">
+                    <span className="search-icon">🔍</span>
+                    <input
+                        type="text"
+                        className="search-input"
+                        placeholder="Search by description, category, type or amount..."
+                        value={searchQuery}
+                        onChange={e => setSearchQuery(e.target.value)}
+                    />
+                    {searchQuery && (
+                        <button className="search-clear" onClick={() => setSearchQuery('')} title="Clear search">
+                            ✕
+                        </button>
+                    )}
+                </div>
+            </div>
 
             {error && (
                 <div className="alert alert-error">
@@ -93,10 +131,11 @@ const TransactionHistory = () => {
             )}
 
             <TransactionTable
-                transactions={transactions}
+                transactions={filteredTransactions}
                 loading={loading}
                 onEdit={handleEdit}
                 onDelete={confirmDelete}
+                showDescriptionOnMobile={true}
             />
 
             {/* Delete Confirmation Modal */}

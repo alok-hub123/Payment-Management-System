@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { formatCurrency, truncateText } from '../utils/formatters'
 import './TransactionTable.css'
@@ -9,9 +10,20 @@ const TransactionTable = ({
     onDelete,
     showActions = true,
     showCreatedBy = true,
-    showDescriptionOnMobile = false
+    showDescriptionOnMobile = false,
+    pageSize = 10
 }) => {
     const navigate = useNavigate()
+    const [visibleCount, setVisibleCount] = useState(pageSize)
+
+    // Reset visible count when transactions list changes (e.g. new filter applied)
+    useEffect(() => {
+        setVisibleCount(pageSize)
+    }, [transactions, pageSize])
+
+    const visibleTransactions = transactions.slice(0, visibleCount)
+    const hasMore = visibleCount < transactions.length
+    const remaining = transactions.length - visibleCount
     if (loading) {
         return (
             <div className="table-loading">
@@ -49,91 +61,111 @@ const TransactionTable = ({
     }
 
     return (
-        <div className="table-container">
-            <table className="table transactions-table">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th className="hide-mobile">Type</th>
-                        <th className="hide-mobile">Category</th>
-                        <th className={!showDescriptionOnMobile ? 'hide-mobile' : ''}>Description</th>
-                        <th className="text-right">Amount</th>
-                        {showCreatedBy && <th className="hide-mobile">Created By</th>}
-                        {showActions && <th className="text-center">Actions</th>}
-                    </tr>
-                </thead>
-                <tbody>
-                    {transactions.map((transaction, index) => {
-                        const date = formatDate(transaction.date)
-                        return (
-                            <tr key={transaction.id} style={{ animationDelay: `${index * 0.05}s` }}>
-                                <td>
-                                    <div className="date-cell">
-                                        <span className="date-day">{date.day}</span>
-                                        <span className="date-month">{date.month} '{date.year}</span>
-                                    </div>
-                                </td>
-                                <td className="hide-mobile">
-                                    <span className={`badge badge-${transaction.type}`}>
-                                        {transaction.type === 'income' ? '↑' : '↓'} {transaction.type}
-                                    </span>
-                                </td>
-                                <td className="hide-mobile">
-                                    <span className="category-cell">{transaction.category}</span>
-                                </td>
-                                <td className={!showDescriptionOnMobile ? 'hide-mobile' : ''}>
-                                    <span className="description-cell" title={transaction.description}>
-                                        {truncateText(transaction.description, 20) || '-'}
-                                    </span>
-                                </td>
-                                <td className="text-right">
-                                    <span className={`amount-cell ${transaction.type}`}>
-                                        {transaction.type === 'income' ? '+' : '-'} {formatCurrency(transaction.amount)}
-                                    </span>
-                                </td>
-                                {showCreatedBy && (
+        <>
+            <div className="table-container">
+                <table className="table transactions-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th className="hide-mobile">Type</th>
+                            <th className="hide-mobile">Category</th>
+                            <th className={!showDescriptionOnMobile ? 'hide-mobile' : ''}>Description</th>
+                            <th className="text-right">Amount</th>
+                            {showCreatedBy && <th className="hide-mobile">Created By</th>}
+                            {showActions && <th className="text-center">Actions</th>}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {visibleTransactions.map((transaction, index) => {
+                            const date = formatDate(transaction.date)
+                            return (
+                                <tr key={transaction.id} style={{ animationDelay: `${index * 0.05}s` }}>
+                                    <td>
+                                        <div className="date-cell">
+                                            <span className="date-day">{date.day}</span>
+                                            <span className="date-month">{date.month} '{date.year}</span>
+                                        </div>
+                                    </td>
                                     <td className="hide-mobile">
-                                        <div className="created-by-cell">
-                                            <div className="user-avatar">
-                                                {(transaction.createdBy || 'U')[0].toUpperCase()}
+                                        <span className={`badge badge-${transaction.type}`}>
+                                            {transaction.type === 'income' ? '↑' : '↓'} {transaction.type}
+                                        </span>
+                                    </td>
+                                    <td className="hide-mobile">
+                                        <span className="category-cell">{transaction.category}</span>
+                                    </td>
+                                    <td className={!showDescriptionOnMobile ? 'hide-mobile' : ''}>
+                                        <span className="description-cell" title={transaction.description}>
+                                            {truncateText(transaction.description, 20) || '-'}
+                                        </span>
+                                    </td>
+                                    <td className="text-right">
+                                        <span className={`amount-cell ${transaction.type}`}>
+                                            {transaction.type === 'income' ? '+' : '-'} {formatCurrency(transaction.amount)}
+                                        </span>
+                                    </td>
+                                    {showCreatedBy && (
+                                        <td className="hide-mobile">
+                                            <div className="created-by-cell">
+                                                <div className="user-avatar">
+                                                    {(transaction.createdBy || 'U')[0].toUpperCase()}
+                                                </div>
+                                                <span className="created-by-name">{transaction.createdBy || 'Unknown'}</span>
                                             </div>
-                                            <span className="created-by-name">{transaction.createdBy || 'Unknown'}</span>
-                                        </div>
-                                    </td>
-                                )}
-                                {showActions && (
-                                    <td className="text-center">
-                                        <div className="action-buttons">
-                                            <button
-                                                className="action-btn info-btn"
-                                                onClick={() => navigate(`/transactions/${transaction.id}`)}
-                                                title="View Details"
-                                            >
-                                                ℹ️
-                                            </button>
-                                            <button
-                                                className="action-btn edit-btn"
-                                                onClick={() => onEdit && onEdit(transaction)}
-                                                title="Edit"
-                                            >
-                                                ✏️
-                                            </button>
-                                            <button
-                                                className="action-btn delete-btn"
-                                                onClick={() => onDelete && onDelete(transaction.id)}
-                                                title="Delete"
-                                            >
-                                                🗑️
-                                            </button>
-                                        </div>
-                                    </td>
-                                )}
-                            </tr>
-                        )
-                    })}
-                </tbody>
-            </table>
-        </div>
+                                        </td>
+                                    )}
+                                    {showActions && (
+                                        <td className="text-center">
+                                            <div className="action-buttons">
+                                                <button
+                                                    className="action-btn info-btn"
+                                                    onClick={() => navigate(`/transactions/${transaction.id}`)}
+                                                    title="View Details"
+                                                >
+                                                    ℹ️
+                                                </button>
+                                                <button
+                                                    className="action-btn edit-btn"
+                                                    onClick={() => onEdit && onEdit(transaction)}
+                                                    title="Edit"
+                                                >
+                                                    ✏️
+                                                </button>
+                                                <button
+                                                    className="action-btn delete-btn"
+                                                    onClick={() => onDelete && onDelete(transaction.id)}
+                                                    title="Delete"
+                                                >
+                                                    🗑️
+                                                </button>
+                                            </div>
+                                        </td>
+                                    )}
+                                </tr>
+                            )
+                        })}
+                    </tbody>
+                </table>
+            </div>
+
+            {/* Load More */}
+            {hasMore && (
+                <div className="load-more-container">
+                    <button
+                        className="load-more-btn"
+                        onClick={() => setVisibleCount(v => v + pageSize)}
+                    >
+                        Load More
+                        <span className="load-more-count">{remaining} remaining</span>
+                    </button>
+                </div>
+            )}
+
+            {/* Row count info */}
+            <div className="table-footer-info">
+                Showing {Math.min(visibleCount, transactions.length)} of {transactions.length} transactions
+            </div>
+        </>
     )
 }
 
