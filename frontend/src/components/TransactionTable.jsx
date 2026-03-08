@@ -6,9 +6,6 @@ import './TransactionTable.css'
 const TransactionTable = ({
     transactions = [],
     loading = false,
-    onEdit,
-    onDelete,
-    showActions = true,
     showCreatedBy = true,
     showDescriptionOnMobile = false,
     pageSize = 10
@@ -72,7 +69,7 @@ const TransactionTable = ({
                             <th className={!showDescriptionOnMobile ? 'hide-mobile' : ''}>Description</th>
                             <th className="text-right">Amount</th>
                             {showCreatedBy && <th className="hide-mobile">Created By</th>}
-                            {showActions && <th className="text-center">Actions</th>}
+                            <th className="text-center">Detail</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -114,33 +111,15 @@ const TransactionTable = ({
                                             </div>
                                         </td>
                                     )}
-                                    {showActions && (
-                                        <td className="text-center">
-                                            <div className="action-buttons">
-                                                <button
-                                                    className="action-btn info-btn"
-                                                    onClick={() => navigate(`/transactions/${transaction.id}`)}
-                                                    title="View Details"
-                                                >
-                                                    ℹ️
-                                                </button>
-                                                <button
-                                                    className="action-btn edit-btn"
-                                                    onClick={() => onEdit && onEdit(transaction)}
-                                                    title="Edit"
-                                                >
-                                                    ✏️
-                                                </button>
-                                                <button
-                                                    className="action-btn delete-btn"
-                                                    onClick={() => onDelete && onDelete(transaction.id)}
-                                                    title="Delete"
-                                                >
-                                                    🗑️
-                                                </button>
-                                            </div>
-                                        </td>
-                                    )}
+                                    <td className="text-center">
+                                        <button
+                                            className="action-btn info-btn"
+                                            onClick={() => navigate(`/transactions/${transaction.id}`)}
+                                            title="View Details"
+                                        >
+                                            ℹ️
+                                        </button>
+                                    </td>
                                 </tr>
                             )
                         })}

@@ -193,10 +193,120 @@
 /* Footer */
 .detail-footer {
     display: flex;
+    align-items: center;
+    justify-content: space-between;
     gap: 0.75rem;
-    justify-content: flex-end;
     padding: 1.25rem 2rem 1.75rem;
     border-top: 1px solid var(--gray-100);
+}
+
+.detail-footer-actions {
+    display: flex;
+    gap: 0.625rem;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 1rem;
+    backdrop-filter: blur(2px);
+}
+
+/* Edit Modal */
+.edit-modal {
+    background: var(--white);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xl);
+    width: 100%;
+    max-width: 560px;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: fadeIn 0.2s ease-out;
+}
+
+.edit-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--gray-100);
+    position: sticky;
+    top: 0;
+    background: var(--white);
+    z-index: 1;
+}
+
+.edit-modal-header h3 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--gray-900);
+}
+
+.modal-close-btn {
+    background: var(--gray-100);
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 0.875rem;
+    color: var(--gray-600);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+.modal-close-btn:hover {
+    background: var(--gray-200);
+    color: var(--gray-900);
+}
+
+.edit-modal-body {
+    padding: 1.25rem 1.5rem 1.5rem;
+}
+
+/* Delete Confirmation Modal */
+.delete-modal {
+    background: var(--white);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xl);
+    width: 100%;
+    max-width: 400px;
+    padding: 2rem 1.5rem 1.5rem;
+    text-align: center;
+    animation: fadeIn 0.2s ease-out;
+}
+
+.delete-modal-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.delete-modal h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: 0.625rem;
+}
+
+.delete-modal p {
+    font-size: 0.9375rem;
+    color: var(--gray-600);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.delete-modal-actions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
 }
 
 /* Skeleton Loading */
@@ -299,6 +409,11 @@
     }
 
     .detail-footer .btn {
+        width: 100%;
+    }
+
+    .detail-footer-actions {
+        flex-direction: column;
         width: 100%;
     }
 }

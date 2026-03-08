@@ -230,42 +230,40 @@ const Dashboard = () => {
                 loading={loading}
             />
 
-            <div className="dashboard-grid">
-                <div className="dashboard-section">
-                    <div className="section-header">
-                        <h2 className="section-title">Recent Transactions</h2>
-                        <Link to="/transactions" className="btn btn-sm btn-outline">
-                            View All →
-                        </Link>
-                    </div>
-                    <TransactionTable
-                        transactions={recentTransactions}
-                        loading={loading}
-                        showActions={false}
-                        showDescriptionOnMobile={true}
-                    />
+            <div className="dashboard-section">
+                <div className="section-header">
+                    <h2 className="section-title">Recent Transactions</h2>
+                    <Link to="/transactions" className="btn btn-sm btn-outline">
+                        View All →
+                    </Link>
                 </div>
+                <TransactionTable
+                    transactions={recentTransactions}
+                    loading={loading}
+                    showActions={false}
+                    showDescriptionOnMobile={true}
+                />
+            </div>
 
-                <div className="dashboard-section quick-actions">
-                    <h2 className="section-title">Quick Actions</h2>
-                    <div className="action-cards">
-                        <Link to="/add-transaction" className="action-card income">
-                            <span className="action-icon">📈</span>
-                            <span className="action-label">Add Income</span>
-                        </Link>
-                        <Link to="/add-transaction" className="action-card expense">
-                            <span className="action-icon">📉</span>
-                            <span className="action-label">Add Expense</span>
-                        </Link>
-                        <Link to="/reports" className="action-card report">
-                            <span className="action-icon">📊</span>
-                            <span className="action-label">View Reports</span>
-                        </Link>
-                        <Link to="/transactions" className="action-card history">
-                            <span className="action-icon">📋</span>
-                            <span className="action-label">All Transactions</span>
-                        </Link>
-                    </div>
+            <div className="dashboard-section quick-actions">
+                <h2 className="section-title">Quick Actions</h2>
+                <div className="action-cards">
+                    <Link to="/add-transaction" className="action-card income">
+                        <span className="action-icon">📈</span>
+                        <span className="action-label">Add Income</span>
+                    </Link>
+                    <Link to="/add-transaction" className="action-card expense">
+                        <span className="action-icon">📉</span>
+                        <span className="action-label">Add Expense</span>
+                    </Link>
+                    <Link to="/reports" className="action-card report">
+                        <span className="action-icon">📊</span>
+                        <span className="action-label">View Reports</span>
+                    </Link>
+                    <Link to="/transactions" className="action-card history">
+                        <span className="action-icon">📋</span>
+                        <span className="action-label">All Transactions</span>
+                    </Link>
                 </div>
             </div>
         </div>

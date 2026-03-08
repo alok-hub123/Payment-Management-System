@@ -99,6 +99,7 @@
 
 /* Description Cell */
 .description-cell {
+    display: block;
     color: var(--gray-600);
     max-width: 200px;
     overflow: hidden;
@@ -281,6 +282,11 @@
         font-size: 0.75rem;
     }
 
+    .description-cell {
+        max-width: 80px;
+        font-size: 0.75rem;
+    }
+
     .amount-cell {
         font-size: 0.8125rem;
     }
@@ -327,6 +333,11 @@
 
     .category-cell {
         max-width: 55px;
+        font-size: 0.6875rem;
+    }
+
+    .description-cell {
+        max-width: 60px;
         font-size: 0.6875rem;
     }
 

@@ -11,8 +11,6 @@ const TransactionHistory = () => {
     const [error, setError] = useState('')
     const [filters, setFilters] = useState({})
     const [searchQuery, setSearchQuery] = useState('')
-    const [editingTransaction, setEditingTransaction] = useState(null)
-    const [showDeleteModal, setShowDeleteModal] = useState(null)
 
     // Client-side instant search across description, category, type, amount
     const filteredTransactions = useMemo(() => {
@@ -51,34 +49,6 @@ const TransactionHistory = () => {
     const handleFilter = (newFilters) => {
         setFilters(newFilters)
         setSearchQuery('') // reset search when backend filters change
-    }
-
-    const handleEdit = (transaction) => {
-        // For now, redirect to a simple edit flow
-        // A full implementation would open a modal
-        setEditingTransaction(transaction)
-    }
-
-    const handleDelete = async (id) => {
-        try {
-            const response = await transactionsAPI.delete(id)
-
-            if (response.data.success) {
-                setTransactions(prev => prev.filter(t => t.id !== id))
-                setShowDeleteModal(null)
-            }
-        } catch (err) {
-            console.error('Delete error:', err)
-            setError('Failed to delete transaction')
-        }
-    }
-
-    const confirmDelete = (id) => {
-        setShowDeleteModal(id)
-    }
-
-    const cancelDelete = () => {
-        setShowDeleteModal(null)
     }
 
     return (
@@ -133,28 +103,8 @@ const TransactionHistory = () => {
             <TransactionTable
                 transactions={filteredTransactions}
                 loading={loading}
-                onEdit={handleEdit}
-                onDelete={confirmDelete}
                 showDescriptionOnMobile={true}
             />
-
-            {/* Delete Confirmation Modal */}
-            {showDeleteModal && (
-                <div className="modal-overlay">
-                    <div className="modal">
-                        <h3>Confirm Delete</h3>
-                        <p>Are you sure you want to delete this transaction? This action cannot be undone.</p>
-                        <div className="modal-actions">
-                            <button className="btn btn-secondary" onClick={cancelDelete}>
-                                Cancel
-                            </button>
-                            <button className="btn btn-danger" onClick={() => handleDelete(showDeleteModal)}>
-                                Delete
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
         </div>
     )
 }

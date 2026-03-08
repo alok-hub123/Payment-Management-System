@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { transactionsAPI } from '../services/api'
 import { formatCurrency } from '../utils/formatters'
+import TransactionForm from '../components/TransactionForm'
 import './TransactionDetail.css'
 
 const TransactionDetail = () => {
@@ -10,6 +11,16 @@ const TransactionDetail = () => {
     const [transaction, setTransaction] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState('')
+
+    // Edit modal state
+    const [showEditModal, setShowEditModal] = useState(false)
+    const [editLoading, setEditLoading] = useState(false)
+    const [editError, setEditError] = useState('')
+    const [editSuccess, setEditSuccess] = useState(false)
+
+    // Delete modal state
+    const [showDeleteModal, setShowDeleteModal] = useState(false)
+    const [deleteLoading, setDeleteLoading] = useState(false)
 
     useEffect(() => {
         fetchTransaction()
@@ -30,6 +41,42 @@ const TransactionDetail = () => {
             setError('Failed to load transaction details.')
         } finally {
             setLoading(false)
+        }
+    }
+
+    const handleEdit = async (formData) => {
+        setEditLoading(true)
+        setEditError('')
+        try {
+            const response = await transactionsAPI.update(id, formData)
+            if (response.data.success) {
+                setEditSuccess(true)
+                setTransaction(response.data.data.transaction)
+                setTimeout(() => {
+                    setShowEditModal(false)
+                    setEditSuccess(false)
+                }, 1200)
+            } else {
+                setEditError(response.data.message || 'Failed to update transaction')
+            }
+        } catch (err) {
+            setEditError(err.response?.data?.message || 'Failed to update transaction.')
+        } finally {
+            setEditLoading(false)
+        }
+    }
+
+    const handleDelete = async () => {
+        setDeleteLoading(true)
+        try {
+            const response = await transactionsAPI.delete(id)
+            if (response.data.success) {
+                navigate('/transactions', { replace: true })
+            }
+        } catch (err) {
+            console.error('Delete error:', err)
+        } finally {
+            setDeleteLoading(false)
         }
     }
 
@@ -174,14 +221,66 @@ const TransactionDetail = () => {
                     <button className="btn btn-secondary" onClick={() => navigate(-1)}>
                         ← Back
                     </button>
-                    <button
-                        className="btn btn-outline"
-                        onClick={() => navigate('/transactions')}
-                    >
-                        All Transactions
-                    </button>
+                    <div className="detail-footer-actions">
+                        <button className="btn btn-outline" onClick={() => { setShowEditModal(true); setEditError(''); setEditSuccess(false) }}>
+                            ✏️ Edit
+                        </button>
+                        <button className="btn btn-danger" onClick={() => setShowDeleteModal(true)}>
+                            🗑️ Delete
+                        </button>
+                    </div>
                 </div>
             </div>
+
+            {/* Edit Modal */}
+            {showEditModal && (
+                <div className="modal-overlay" onClick={(e) => e.target === e.currentTarget && setShowEditModal(false)}>
+                    <div className="edit-modal">
+                        <div className="edit-modal-header">
+                            <h3>Edit Transaction</h3>
+                            <button className="modal-close-btn" onClick={() => setShowEditModal(false)}>✕</button>
+                        </div>
+
+                        {editSuccess && (
+                            <div className="alert alert-success" style={{ margin: '0 1.5rem 1rem' }}>
+                                ✓ Transaction updated successfully!
+                            </div>
+                        )}
+                        {editError && (
+                            <div className="alert alert-error" style={{ margin: '0 1.5rem 1rem' }}>
+                                {editError}
+                            </div>
+                        )}
+
+                        <div className="edit-modal-body">
+                            <TransactionForm
+                                onSubmit={handleEdit}
+                                initialData={transaction}
+                                loading={editLoading}
+                            />
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Delete Confirmation Modal */}
+            {showDeleteModal && (
+                <div className="modal-overlay">
+                    <div className="delete-modal">
+                        <div className="delete-modal-icon">🗑️</div>
+                        <h3>Delete Transaction?</h3>
+                        <p>Are you sure you want to delete this transaction? This action <strong>cannot be undone</strong>.</p>
+                        <div className="delete-modal-actions">
+                            <button className="btn btn-secondary" onClick={() => setShowDeleteModal(false)} disabled={deleteLoading}>
+                                Cancel
+                            </button>
+                            <button className="btn btn-danger" onClick={handleDelete} disabled={deleteLoading}>
+                                {deleteLoading ? <><span className="btn-loader"></span> Deleting...</> : '🗑️ Delete'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }
