@@ -7,7 +7,8 @@ const TransactionTable = ({
     onEdit,
     onDelete,
     showActions = true,
-    showCreatedBy = true
+    showCreatedBy = true,
+    showDescriptionOnMobile = false
 }) => {
     if (loading) {
         return (
@@ -51,9 +52,9 @@ const TransactionTable = ({
                 <thead>
                     <tr>
                         <th>Date</th>
-                        <th>Type</th>
-                        <th>Category</th>
-                        <th className="hide-mobile">Description</th>
+                        <th className="hide-mobile">Type</th>
+                        <th className="hide-mobile">Category</th>
+                        <th className={!showDescriptionOnMobile ? 'hide-mobile' : ''}>Description</th>
                         <th className="text-right">Amount</th>
                         {showCreatedBy && <th className="hide-mobile">Created By</th>}
                         {showActions && <th className="text-center">Actions</th>}
@@ -70,17 +71,17 @@ const TransactionTable = ({
                                         <span className="date-month">{date.month} '{date.year}</span>
                                     </div>
                                 </td>
-                                <td>
+                                <td className="hide-mobile">
                                     <span className={`badge badge-${transaction.type}`}>
                                         {transaction.type === 'income' ? '↑' : '↓'} {transaction.type}
                                     </span>
                                 </td>
-                                <td>
+                                <td className="hide-mobile">
                                     <span className="category-cell">{transaction.category}</span>
                                 </td>
-                                <td className="hide-mobile">
+                                <td className={!showDescriptionOnMobile ? 'hide-mobile' : ''}>
                                     <span className="description-cell" title={transaction.description}>
-                                        {truncateText(transaction.description, 30) || '-'}
+                                        {truncateText(transaction.description, 20) || '-'}
                                     </span>
                                 </td>
                                 <td className="text-right">

@@ -242,6 +242,7 @@ const Dashboard = () => {
                         transactions={recentTransactions}
                         loading={loading}
                         showActions={false}
+                        showDescriptionOnMobile={true}
                     />
                 </div>
 

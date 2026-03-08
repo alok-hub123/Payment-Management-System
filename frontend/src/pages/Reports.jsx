@@ -231,6 +231,7 @@ const Reports = () => {
                         <TransactionTable
                             transactions={reportData?.transactions || []}
                             showActions={false}
+                            showDescriptionOnMobile={true}
                         />
                     </div>
                 </>
