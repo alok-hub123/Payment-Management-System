@@ -38,7 +38,6 @@ const AddTransaction = () => {
         <div className="add-transaction container">
             <div className="page-header">
                 <h1 className="page-title">Add Transaction</h1>
-                <p className="page-subtitle">Record a new income or expense entry</p>
             </div>
 
             <div className="form-card card">

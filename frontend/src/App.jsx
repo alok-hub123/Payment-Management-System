@@ -7,6 +7,7 @@ import AddTransaction from './pages/AddTransaction'
 import TransactionHistory from './pages/TransactionHistory'
 import Reports from './pages/Reports'
 import UserManagement from './pages/UserManagement'
+import TransactionDetail from './pages/TransactionDetail'
 import './App.css'
 
 // Protected Route Component
@@ -73,6 +74,11 @@ function App() {
                     <Route path="/transactions" element={
                         <ProtectedRoute>
                             <TransactionHistory />
+                        </ProtectedRoute>
+                    } />
+                    <Route path="/transactions/:id" element={
+                        <ProtectedRoute>
+                            <TransactionDetail />
                         </ProtectedRoute>
                     } />
                     <Route path="/reports" element={

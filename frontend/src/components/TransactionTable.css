@@ -67,7 +67,7 @@
 /* Date Cell */
 .date-cell {
     display: flex;
-    flex-direction: column;
+    gap: 0.25rem;
     align-items: flex-start;
     min-width: 45px;
 }
@@ -181,6 +181,10 @@
 
 .edit-btn:hover {
     background: var(--info-light);
+}
+
+.info-btn:hover {
+    background: var(--warning-light);
 }
 
 .delete-btn:hover {

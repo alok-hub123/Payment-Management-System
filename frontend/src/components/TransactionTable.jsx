@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import { formatCurrency, truncateText } from '../utils/formatters'
 import './TransactionTable.css'
 
@@ -10,6 +11,7 @@ const TransactionTable = ({
     showCreatedBy = true,
     showDescriptionOnMobile = false
 }) => {
+    const navigate = useNavigate()
     if (loading) {
         return (
             <div className="table-loading">
@@ -102,6 +104,13 @@ const TransactionTable = ({
                                 {showActions && (
                                     <td className="text-center">
                                         <div className="action-buttons">
+                                            <button
+                                                className="action-btn info-btn"
+                                                onClick={() => navigate(`/transactions/${transaction.id}`)}
+                                                title="View Details"
+                                            >
+                                                ℹ️
+                                            </button>
                                             <button
                                                 className="action-btn edit-btn"
                                                 onClick={() => onEdit && onEdit(transaction)}
